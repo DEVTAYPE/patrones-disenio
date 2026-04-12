@@ -50,7 +50,7 @@ class QueryBuilder {
   }
 
   select(...fields: string[]): QueryBuilder {
-    this.fields.push(...fields);
+    this.fields = fields;
     return this;
   }
 
