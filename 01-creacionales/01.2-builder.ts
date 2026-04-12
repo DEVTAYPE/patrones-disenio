@@ -11,7 +11,7 @@
  * * que lo componen.
  */
 
-import { COLORS } from '../helpers/colors.ts';
+import { COLORS } from "../helpers/colors.ts";
 
 //! Tarea: crear un QueryBuilder para construir consultas SQL
 /**
@@ -50,37 +50,58 @@ class QueryBuilder {
   }
 
   select(...fields: string[]): QueryBuilder {
-    throw new Error('Method not implemented.');
+    this.fields.push(...fields);
+    return this;
   }
 
   where(condition: string): QueryBuilder {
-    throw new Error('Method not implemented.');
+    this.conditions.push(condition);
+    return this;
   }
 
-  orderBy(field: string, direction: 'ASC' | 'DESC' = 'ASC'): QueryBuilder {
-    throw new Error('Method not implemented.');
+  orderBy(field: string, direction: "ASC" | "DESC" = "ASC"): QueryBuilder {
+    this.orderFields.push(field);
+    this.orderFields.push(direction);
+
+    return this;
   }
 
   limit(count: number): QueryBuilder {
-    throw new Error('Method not implemented.');
+    this.limitCount = count;
+    return this;
   }
 
   execute(): string {
     // Select id, name, email from users where age > 18 and country = 'Cri' order by name ASC limit 10;
-    throw new Error('Method not implemented.');
+    let arrQuery = [];
+
+    this.fields.length
+      ? (arrQuery[0] = `SELECT ${this.fields.join(", ")} FROM ${this.table}`)
+      : (arrQuery[0] = "SELECT * FROM ${this.table}");
+
+    arrQuery[1] = this.conditions.length
+      ? `where ${this.conditions.join(" & ")}`
+      : "";
+    arrQuery[2] = this.orderFields.length
+      ? ` order by ${this.orderFields.join(" ")}`
+      : "";
+
+    arrQuery[3] = this.limitCount ? `limit ${this.limitCount}` : "";
+
+    return arrQuery.join(" ");
   }
 }
 
 function main() {
-  const usersQuery = new QueryBuilder('users')
-    .select('id', 'name', 'email')
-    .where('age > 18')
+  const usersQuery = new QueryBuilder("users")
+    .select("id", "name", "email")
+    .where("age > 18")
     .where("country = 'Cri'") // Esto debe de hacer una condición AND
-    .orderBy('name', 'ASC')
+    .orderBy("name", "ASC")
     .limit(10)
     .execute();
 
-  console.log('%cConsulta:\n', COLORS.red);
+  console.log("%cConsulta:\n", COLORS.red);
   console.log(usersQuery);
 }
 
