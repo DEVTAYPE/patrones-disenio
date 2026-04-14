@@ -38,7 +38,7 @@ class BeenHamburger implements IHamburger {
 }
 
 abstract class Restaurant {
-  abstract createHamburger(): IHamburger;
+  protected abstract createHamburger(): IHamburger;
 
   orderHamburger(): void {
     const hamburger = this.createHamburger();
