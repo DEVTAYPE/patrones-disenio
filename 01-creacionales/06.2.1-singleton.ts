@@ -9,3 +9,12 @@
  *
  * https://refactoring.guru/es/design-patterns/singleton
  */
+
+import { configManager } from "./singleton/config-manager.ts";
+
+configManager.setConfig("host", "localhost");
+configManager.setConfig("port", "5432");
+
+console.log(configManager.getConfig("host"));
+console.log(configManager.getConfig("port"));
+console.log(configManager.getAllConfigs());
