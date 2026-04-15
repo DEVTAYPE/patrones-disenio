@@ -17,3 +17,73 @@
  *  (en este caso, hamburguesas y bebidas) sin especificar las clases concretas
  *  de cada uno de esos objetos en el código principal.
  */
+interface IHamburger {
+  prepare(): void;
+}
+
+interface IDrink {
+  pour(): void;
+}
+
+class ChickenHamburger implements IHamburger {
+  prepare(): void {
+    console.log("Preparando hamburguesa de pollo...");
+  }
+}
+
+class BeefHamburger implements IHamburger {
+  prepare(): void {
+    console.log("Preparando hamburguesa de res...");
+  }
+}
+
+class Water implements IDrink {
+  pour(): void {
+    console.log("Sirviendo agua...");
+  }
+}
+
+class Soda implements IDrink {
+  pour(): void {
+    console.log("Sirviendo refresco...");
+  }
+}
+
+interface IRestaurantFactory {
+  createHamburger(): IHamburger;
+  createDrink(): IDrink;
+}
+
+class FastFoodRestaurantFactory implements IRestaurantFactory {
+  createHamburger(): IHamburger {
+    return new BeefHamburger();
+  }
+
+  createDrink(): IDrink {
+    return new Soda();
+  }
+}
+
+class HealthyRestaurantFactory implements IRestaurantFactory {
+  createHamburger(): IHamburger {
+    return new ChickenHamburger();
+  }
+
+  createDrink(): IDrink {
+    return new Water();
+  }
+}
+
+function main(factory: IRestaurantFactory) {
+  const hamburger = factory.createHamburger();
+  const drink = factory.createDrink();
+
+  hamburger.prepare();
+  drink.pour();
+}
+
+console.log("Pedido regular");
+main(new FastFoodRestaurantFactory());
+
+console.log("\n\nPedido saludable");
+main(new HealthyRestaurantFactory());
