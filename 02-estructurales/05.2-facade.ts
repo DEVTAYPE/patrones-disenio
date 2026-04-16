@@ -89,7 +89,6 @@ class ComputerFacade {
     console.log("\n%cApagando la computadora...", COLORS.red);
     console.log("Cerrando procesos y guardando datos...");
 
-    // TODO: ejecutar las operaciones necesarias para apagar la computadora
     // 1. Detener las operaciones del CPU - cpu.stopOperations()
     this.cpu.stopOperations();
     // 2. Liberar la memoria - memory.free()
@@ -102,7 +101,6 @@ class ComputerFacade {
 }
 
 // 3. Código Cliente para Usar la Facade
-// TODO: Aquí no hay nada que hacer, debe de encender la computadora y apagarla sin problemas
 function main() {
   const computer = new ComputerFacade();
 
