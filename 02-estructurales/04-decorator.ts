@@ -11,3 +11,59 @@
  *
  * https://refactoring.guru/es/design-patterns/decorator
  */
+
+interface INotification {
+  send(message: string): void;
+}
+
+class BasicNotification implements INotification {
+  send(message: string): void {
+    console.log(`Basic notification: ${message}`);
+  }
+}
+
+abstract class NotificationDecorator implements INotification {
+  protected notification: INotification;
+
+  constructor(notification: INotification) {
+    this.notification = notification;
+  }
+
+  send(message: string): void {
+    this.notification.send(message);
+  }
+}
+
+class EmailNotification extends NotificationDecorator {
+  private sendEmail(message: string): void {
+    console.log(`Sending email notification: ${message}`);
+  }
+
+  send(message: string): void {
+    super.send(message);
+    this.sendEmail(message);
+  }
+}
+
+class SMSNotification extends NotificationDecorator {
+  private sendSMS(message: string): void {
+    console.log(`Sending SMS notification: ${message}`);
+  }
+
+  send(message: string): void {
+    super.send(message);
+    this.sendSMS(message);
+  }
+}
+
+function main() {
+  const basicNotification: INotification = new BasicNotification();
+  const emailNotification: INotification = new EmailNotification(
+    basicNotification,
+  );
+  const smsNotification: INotification = new SMSNotification(emailNotification);
+
+  smsNotification.send("Hello, World!");
+}
+
+main();
