@@ -26,3 +26,57 @@
  * ya que define un esqueleto general del algoritmo en una clase base
  * y delega los detalles específicos a las subclases.
  */
+
+abstract class HotBeverage {
+  // Método plantilla que define el esqueleto del algoritmo
+  prepare(): void {
+    this.boilWater();
+    this.addMainIngredient();
+    this.pourInCup();
+    this.addCondiments();
+  }
+
+  private boilWater(): void {
+    console.log("Hirviendo agua...");
+  }
+
+  private pourInCup(): void {
+    console.log("Sirviendo en la taza...");
+  }
+
+  // Métodos abstractos que deben ser implementados por las subclases
+  protected abstract addMainIngredient(): void;
+  protected abstract addCondiments(): void;
+}
+
+class Coffee extends HotBeverage {
+  protected addMainIngredient(): void {
+    console.log("Añadiendo café molido...");
+  }
+
+  protected addCondiments(): void {
+    console.log("Añadiendo azúcar y leche...");
+  }
+}
+
+class Tea extends HotBeverage {
+  protected addMainIngredient(): void {
+    console.log("Añadiendo una bolsa de té...");
+  }
+
+  protected addCondiments(): void {
+    console.log("Añadiendo limón...");
+  }
+}
+
+function main() {
+  const coffee = new Coffee();
+  console.log("Preparando café:");
+  coffee.prepare();
+
+  console.log("\nPreparando té:");
+  const tea = new Tea();
+  tea.prepare();
+}
+
+main();
