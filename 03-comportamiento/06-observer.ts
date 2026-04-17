@@ -13,3 +13,68 @@
  *
  * https://refactoring.guru/es/design-patterns/observer
  */
+interface Observer {
+  notify(videoTitle: string): void;
+}
+
+class YouTubeChannel {
+  private subscribers: Observer[] = [];
+  private name: string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+
+  suscribe(observer: Observer): void {
+    this.subscribers.push(observer);
+    console.log(`${observer.constructor.name} se ha suscrito a ${this.name}`);
+  }
+
+  unsubscribe(observer: Observer): void {
+    this.subscribers = this.subscribers.filter((obs) => obs !== observer);
+    console.log(
+      `${observer.constructor.name} se ha desuscrito de ${this.name}`,
+    );
+  }
+
+  notifySubscribers(videoTitle: string): void {
+    this.subscribers.forEach((subscriber) => subscriber.notify(videoTitle));
+  }
+
+  uploadVideo(videoTitle: string): void {
+    console.log(`${this.name} ha subido un nuevo video: ${videoTitle}`);
+    this.notifySubscribers(videoTitle);
+  }
+}
+
+class Subscriber implements Observer {
+  private name: string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+
+  notify(videoTitle: string): void {
+    console.log(
+      `${this.name} ha sido notificado de un nuevo video: ${videoTitle}`,
+    );
+  }
+}
+
+function main() {
+  const channel = new YouTubeChannel("Tech Channel");
+
+  const subscriber1 = new Subscriber("Alice");
+  const subscriber2 = new Subscriber("Bob");
+
+  channel.suscribe(subscriber1);
+  channel.suscribe(subscriber2);
+
+  channel.uploadVideo("Introducción a TypeScript");
+
+  channel.unsubscribe(subscriber1);
+
+  channel.uploadVideo("Patrón Observer en TypeScript");
+}
+
+main();
